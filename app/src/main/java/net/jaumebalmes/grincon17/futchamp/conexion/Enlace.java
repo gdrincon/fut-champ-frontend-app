@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 public class Enlace {
 
-    private final String LOCALHOST = "http://192.168.1.24:";  // Direccion Ip del Pc(puede variar segun el ordenador o servidor)
+    private final String LOCALHOST = "http://192.168.1.115:";  // Direccion Ip del Pc(puede variar segun el ordenador o servidor)
 //    private final String LOCALHOST = "http://ec2-3-91-54-159.compute-1.amazonaws.com:";  // Direccion Ip del servidor
     private final String PORT = "8080";  // Puerto de conexion, depende de la configuracion del Pc
     private final String ROUTE = "/api/futchamp/";  // Ruta a la API.

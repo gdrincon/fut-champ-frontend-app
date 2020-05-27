@@ -59,7 +59,7 @@ public class EquipoFragment extends Fragment {
         Enlace enlace = new Enlace(); // para obtener los enlaces de conexion a la api
         Api api = new Api(); // para obtener la conexion a la API
         retrofitEquipo = api.getConexion(enlace.getLink(enlace.EQUIPO));
-        //Log.d("ENLACE", enlace.getLink(enlace.EQUIPO));
+
         equipoList = new ArrayList<>(); // Para almacenar los datos de los equipos
     }
 

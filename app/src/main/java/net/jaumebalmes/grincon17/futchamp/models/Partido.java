@@ -14,8 +14,6 @@ public class Partido implements Serializable {
     private Equipo visitante; // id de equipo y otros datos
     private Calendario calendario; // id calendario que genero los partidos
 
-    // FALTAN HACER 1 CAMPO ==>> Marcador ==> Falta terminar
-
     //Constructores
     public Partido() {
     }

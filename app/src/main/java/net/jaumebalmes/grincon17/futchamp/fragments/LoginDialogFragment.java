@@ -42,6 +42,9 @@ public class LoginDialogFragment extends DialogFragment {
 
     private Retrofit retrofitCoordinador;
 
+    public LoginDialogFragment() {
+    }
+
     @SuppressLint("InflateParams")
     @NonNull
     @Override
@@ -50,6 +53,10 @@ public class LoginDialogFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.fragment_login_dialog, null);
         userName = view.findViewById(R.id.textEditUser);
         pwd = view.findViewById(R.id.textEditPwd);
+
+        Enlace enlace = new Enlace(); // para obtener los enlaces de conexion a la api
+        Api api = new Api(); // para obtener la conexion a la API
+        retrofitCoordinador = api.getConexion(enlace.getLink(enlace.COORDINADOR));
 
         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
         builder.setView(view);
@@ -63,7 +70,7 @@ public class LoginDialogFragment extends DialogFragment {
                     // mListener.onLoginClickListener(name, pass); // Muestra mensaj
                     verificarAutorizacionUsuario(name, pass);   // Verifica la respuesta de seguridad
 
-                    mListener.onLoginClickListener(name, pass); // Muestra mensaje
+                    mListener.onLoginClickListener(name, pass); // Captura le acceso del coordinador
                 } else {
                     Toast.makeText(getContext(), "Must not be empty " + name, Toast.LENGTH_SHORT).show();
                 }

@@ -25,6 +25,7 @@ import net.jaumebalmes.grincon17.futchamp.interfaces.OnLoginDialogListener;
 import net.jaumebalmes.grincon17.futchamp.models.Equipo;
 import net.jaumebalmes.grincon17.futchamp.models.Jugador;
 import net.jaumebalmes.grincon17.futchamp.repositoryApi.CoordinadorRepositoryApi;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
