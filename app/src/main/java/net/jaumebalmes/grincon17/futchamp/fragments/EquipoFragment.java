@@ -41,6 +41,7 @@ public class EquipoFragment extends Fragment {
     private OnListEquipoInteractionListener mListener;
     private String leagueName;
     private Api api;
+    private View view;
 
     public EquipoFragment() {
     }
@@ -57,13 +58,18 @@ public class EquipoFragment extends Fragment {
 
     }
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_equipo_list, container, false);
+    @Override
+    public void onResume() {
+        super.onResume();
         if (view instanceof RecyclerView) {
-           api.obtenerDatosEquipos(view, leagueName, getActivity(), mListener);
+            api.obtenerDatosEquipos(view, leagueName, getActivity(), mListener);
 
         }
+    }
+
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_equipo_list, container, false);
         return view;
     }
 

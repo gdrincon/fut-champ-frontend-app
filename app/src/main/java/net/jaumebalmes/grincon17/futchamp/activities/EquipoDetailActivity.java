@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
@@ -30,6 +31,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
 import net.jaumebalmes.grincon17.futchamp.R;
+import net.jaumebalmes.grincon17.futchamp.adapters.MyJornadaRecyclerViewAdapter;
 import net.jaumebalmes.grincon17.futchamp.adapters.MyJugadorRecyclerViewAdapter;
 import net.jaumebalmes.grincon17.futchamp.conexion.Api;
 import net.jaumebalmes.grincon17.futchamp.conexion.Enlace;
@@ -40,11 +42,14 @@ import net.jaumebalmes.grincon17.futchamp.fragments.LeagueFragment;
 import net.jaumebalmes.grincon17.futchamp.fragments.LoginDialogFragment;
 import net.jaumebalmes.grincon17.futchamp.interfaces.OnAddEquipoDialogListener;
 import net.jaumebalmes.grincon17.futchamp.interfaces.OnAddLeagueDialogListener;
+import net.jaumebalmes.grincon17.futchamp.interfaces.OnListJornadaInteractionListener;
 import net.jaumebalmes.grincon17.futchamp.interfaces.OnListJugadorInteractionListener;
+import net.jaumebalmes.grincon17.futchamp.interfaces.OnListPartidoInteractionListener;
 import net.jaumebalmes.grincon17.futchamp.interfaces.OnLoginDialogListener;
 import net.jaumebalmes.grincon17.futchamp.models.Equipo;
 import net.jaumebalmes.grincon17.futchamp.models.Jugador;
 import net.jaumebalmes.grincon17.futchamp.models.League;
+import net.jaumebalmes.grincon17.futchamp.models.Partido;
 import net.jaumebalmes.grincon17.futchamp.repositoryApi.CoordinadorRepositoryApi;
 import net.jaumebalmes.grincon17.futchamp.repositoryApi.JugadorRepositoryApi;
 import net.jaumebalmes.grincon17.futchamp.repositoryApi.LeagueRepositoryApi;
@@ -62,13 +67,12 @@ import retrofit2.Retrofit;
  * Esta activity muestra la vista del detalle de un equipo.
  * @author guillermo
  */
-public class EquipoDetailActivity extends AppCompatActivity implements OnLoginDialogListener, OnAddLeagueDialogListener {
+public class EquipoDetailActivity extends AppCompatActivity implements OnLoginDialogListener {
 
     private SharedPreferences preferences;
     private Equipo equipo;
     private boolean longClick;
     private Api api;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,10 +100,17 @@ public class EquipoDetailActivity extends AppCompatActivity implements OnLoginDi
                 invalidateOptionsMenu();
             }
         };
+        OnListPartidoInteractionListener partidoInteractionListener = new OnListPartidoInteractionListener() {
+            @Override
+            public void onPartidoClickListener(Partido partido) {
 
+            }
+        };
+        api.obtenerDatosPartidosPorEquipo(getApplicationContext(), this, partidoInteractionListener);
         ImageView imageViewLogo = findViewById(R.id.imageViewEquipoLogo);
         loadImg(equipo.getLogo(), imageViewLogo);
         api.obtenerDatosJugadoresPorEquipo(nombreEquipo, getApplicationContext(), this, mListener);
+
     }
 
     @Override
@@ -216,10 +227,6 @@ public class EquipoDetailActivity extends AppCompatActivity implements OnLoginDi
         }
     }
 
-    @Override
-    public void onAddLeagueClickListener(String name, Uri uri) {
-        api.postLeague(name, uri, getApplicationContext(), this, getSupportFragmentManager());
-    }
 
     @Override
     public void onLoginClickListener(String userName, String pwd) {

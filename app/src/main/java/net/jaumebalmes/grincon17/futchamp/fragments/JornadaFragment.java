@@ -22,6 +22,7 @@ public class JornadaFragment extends Fragment {
     private OnListJornadaInteractionListener mListener;
     private String leagueName;
     private Api api;
+    private View view;
 
     public JornadaFragment() { }
 
@@ -39,16 +40,15 @@ public class JornadaFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        if (view instanceof RecyclerView) {
+            api.getPartidos(view, getActivity(), mListener);
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_jornada_list, container, false);
-
-        if (view instanceof RecyclerView) {
-            api.getPartidos(view, getActivity(), mListener);
-        }
+        view = inflater.inflate(R.layout.fragment_jornada_list, container, false);
         return view;
     }
 

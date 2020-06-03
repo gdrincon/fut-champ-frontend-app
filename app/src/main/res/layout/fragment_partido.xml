@@ -2,7 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/activity_card_margin"
     app:cardElevation="@dimen/activity_card_elevation">
@@ -10,28 +10,69 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="@dimen/activity_card_margin"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/text_partido_fecha"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/activity_card_margin"
             android:text="fecha"
             android:textAlignment="center"
-            android:textSize="@dimen/text_size_extra_small"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textSize="@dimen/text_size_extra_small" />
 
         <TextView
             android:id="@+id/text_partido_hora"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginTop="@dimen/activity_card_margin"
             android:text="hora"
             android:textAlignment="center"
-            android:textSize="@dimen/text_size_extra_small"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_partido_fecha" />
+            android:textSize="@dimen/text_size_extra_small" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/activity_card_margin">
+
+
+            <ImageView
+                android:id="@+id/imageViewLogoLocal"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="@dimen/activity_vertical_margin"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/textView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/text_equipo_local"
+                app:srcCompat="@drawable/ic_jersey_purple" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vs."
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageViewLogoVisitante"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="@dimen/activity_vertical_margin"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/textView"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                app:srcCompat="@drawable/ic_jersey_purple" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>

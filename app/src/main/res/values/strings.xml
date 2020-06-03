@@ -33,7 +33,7 @@
     <string name="goles_contra">GC</string>
     <!-- FIN TABLA -->
     <string name="titulo_prox_partido">Próximos partidos</string>
-    <string name="titulo_past_partido">Próximos jugados</string>
+    <string name="titulo_past_partido">Partidos jugados</string>
     <string name="titulo_jugadores">Jugadores</string>
     <!-- DETALLE DE JUGADOR -->
     <string name="nombre">Nombre</string>

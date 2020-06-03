@@ -30,6 +30,7 @@ import net.jaumebalmes.grincon17.futchamp.adapters.MyEquipoRecyclerViewAdapter;
 import net.jaumebalmes.grincon17.futchamp.adapters.MyJornadaRecyclerViewAdapter;
 import net.jaumebalmes.grincon17.futchamp.adapters.MyJugadorRecyclerViewAdapter;
 import net.jaumebalmes.grincon17.futchamp.adapters.MyLeagueRecyclerViewAdapter;
+import net.jaumebalmes.grincon17.futchamp.adapters.MyPartidoRecyclerViewAdapter;
 import net.jaumebalmes.grincon17.futchamp.fragments.EquipoFragment;
 import net.jaumebalmes.grincon17.futchamp.fragments.JugadorFragment;
 import net.jaumebalmes.grincon17.futchamp.fragments.LeagueFragment;
@@ -37,6 +38,7 @@ import net.jaumebalmes.grincon17.futchamp.interfaces.OnListEquipoInteractionList
 import net.jaumebalmes.grincon17.futchamp.interfaces.OnListJornadaInteractionListener;
 import net.jaumebalmes.grincon17.futchamp.interfaces.OnListJugadorInteractionListener;
 import net.jaumebalmes.grincon17.futchamp.interfaces.OnListLeagueInteractionListener;
+import net.jaumebalmes.grincon17.futchamp.interfaces.OnListPartidoInteractionListener;
 import net.jaumebalmes.grincon17.futchamp.models.Calendario;
 import net.jaumebalmes.grincon17.futchamp.models.Equipo;
 import net.jaumebalmes.grincon17.futchamp.models.Jugador;
@@ -321,25 +323,29 @@ public class Api {
         });
     }
 
-    public void obtenerDatosPartidosPorEquipo(String nombreEquipo, final Context context, final Activity activity,
-                                               final OnListJugadorInteractionListener mListener) {
-        final String TAG_JUGADOR = "JUGADORES";
+    public void obtenerDatosPartidosPorEquipo(final Context context, final Activity activity,
+                                               final OnListPartidoInteractionListener mListener) {
+        final String TAG_JUGADOR = "Partido";
         retrofit = getConexion(enlace.getLink(enlace.PARTIDO));
-        JugadorRepositoryApi jugadorRepositoryApi = retrofit.create(JugadorRepositoryApi.class);
-        Call<ArrayList<Jugador>> jugadorAnswerCall = jugadorRepositoryApi.obtenerListaJugadoresEquipo(nombreEquipo);
-        jugadorList = new ArrayList<>();
+        PartidosRepositoryApi partidosRepositoryApi = retrofit.create(PartidosRepositoryApi.class);
+        Call<ArrayList<Partido>> partidoAnswerCall = partidosRepositoryApi.obtenerListaPartidos();
+
         // Aqui se realiza la solicitud al servidor de forma asincrónicamente y se obtiene 2 respuestas.
-        jugadorAnswerCall.enqueue(new Callback<ArrayList<Jugador>>() {
+        partidoAnswerCall.enqueue(new Callback<ArrayList<Partido>>() {
             @Override
-            public void onResponse(Call<ArrayList<Jugador>> call, Response<ArrayList<Jugador>> response) {
+            public void onResponse(Call<ArrayList<Partido>> call, Response<ArrayList<Partido>> response) {
 
                 if (response.isSuccessful()) {
                     // Aqui se aplica a la vista los datos obtenidos de la API que estan almacenados en el ArrayList
-                    jugadorList = response.body();
+                    List<Partido> partidoList = new ArrayList<>();
+                    partidoList = response.body();
 
-                    RecyclerView recyclerView = activity.findViewById(R.id.recycler_jugadores_equipo);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(context));
-                    recyclerView.setAdapter(new MyJugadorRecyclerViewAdapter(context, jugadorList, mListener));
+                    RecyclerView recyclerViewPartidos1 = activity.findViewById(R.id.recycler_partidos1_equipo);
+                    RecyclerView recyclerViewPartidos2 = activity.findViewById(R.id.recycler_partidos2_equipo);
+                    recyclerViewPartidos1.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false));
+                    recyclerViewPartidos2.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false));
+                    recyclerViewPartidos1.setAdapter(new MyPartidoRecyclerViewAdapter(context, partidoList, mListener));
+                    recyclerViewPartidos2.setAdapter(new MyPartidoRecyclerViewAdapter(context, partidoList, mListener));
                     // Muestra los datos que llegan en la consola
                     for (int i = 0; i < jugadorList.size(); i++) {
                         Log.e(TAG_JUGADOR, "Liga: " + jugadorList.get(i).getNombre());
@@ -355,7 +361,7 @@ public class Api {
 
             // Aqui, se mostrara si la conexion a la API falla.
             @Override
-            public void onFailure(Call<ArrayList<Jugador>> call, Throwable t) {
+            public void onFailure(Call<ArrayList<Partido>> call, Throwable t) {
                 Toast toast = Toast.makeText(context, "Error en la conexion a la red.", Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER, 0, 500);
                 toast.show();
