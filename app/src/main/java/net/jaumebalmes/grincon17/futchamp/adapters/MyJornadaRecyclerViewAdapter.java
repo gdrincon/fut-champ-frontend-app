@@ -46,8 +46,14 @@ public class MyJornadaRecyclerViewAdapter extends RecyclerView.Adapter<MyJornada
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mFechaView.setText(holder.mItem.getFecha());
-        holder.mHoraView.setText(holder.mItem.getHora());
+        String fechaInvertida = holder.mItem.getFecha();
+        String [] splitFecha = fechaInvertida.split("-");
+        String fecha = splitFecha[2] + "-" + splitFecha[1] + "-" + splitFecha[0];
+        holder.mFechaView.setText(fecha);
+        String horaSegundos = holder.mItem.getHora();
+        String [] splitHora = horaSegundos.split(":");
+        String hora = splitHora[0] + ":" + splitHora[1];
+        holder.mHoraView.setText(hora);
         holder.mLocalView.setText(holder.mItem.getLocal().getName());
         holder.mVisitanteView.setText(holder.mItem.getVisitante().getName());
         holder.mJornadaNumView.setText(String.valueOf(holder.mItem.getJornada()));

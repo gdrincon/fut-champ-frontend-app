@@ -25,12 +25,12 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import net.jaumebalmes.grincon17.futchamp.R;
-import net.jaumebalmes.grincon17.futchamp.activities.AddJugadorActivity;
 import net.jaumebalmes.grincon17.futchamp.adapters.MyEquipoRecyclerViewAdapter;
 import net.jaumebalmes.grincon17.futchamp.adapters.MyJornadaRecyclerViewAdapter;
 import net.jaumebalmes.grincon17.futchamp.adapters.MyJugadorRecyclerViewAdapter;
 import net.jaumebalmes.grincon17.futchamp.adapters.MyLeagueRecyclerViewAdapter;
-import net.jaumebalmes.grincon17.futchamp.adapters.MyPartidoRecyclerViewAdapter;
+import net.jaumebalmes.grincon17.futchamp.adapters.MyNextPartidoRecyclerViewAdapter;
+import net.jaumebalmes.grincon17.futchamp.adapters.MyPrevPartidoRecyclerViewAdapter;
 import net.jaumebalmes.grincon17.futchamp.fragments.EquipoFragment;
 import net.jaumebalmes.grincon17.futchamp.fragments.JugadorFragment;
 import net.jaumebalmes.grincon17.futchamp.fragments.LeagueFragment;
@@ -38,7 +38,7 @@ import net.jaumebalmes.grincon17.futchamp.interfaces.OnListEquipoInteractionList
 import net.jaumebalmes.grincon17.futchamp.interfaces.OnListJornadaInteractionListener;
 import net.jaumebalmes.grincon17.futchamp.interfaces.OnListJugadorInteractionListener;
 import net.jaumebalmes.grincon17.futchamp.interfaces.OnListLeagueInteractionListener;
-import net.jaumebalmes.grincon17.futchamp.interfaces.OnListPartidoInteractionListener;
+import net.jaumebalmes.grincon17.futchamp.interfaces.OnListNextPartidoInteractionListener;
 import net.jaumebalmes.grincon17.futchamp.models.Calendario;
 import net.jaumebalmes.grincon17.futchamp.models.Equipo;
 import net.jaumebalmes.grincon17.futchamp.models.Jugador;
@@ -52,8 +52,6 @@ import net.jaumebalmes.grincon17.futchamp.repositoryApi.LeagueRepositoryApi;
 import net.jaumebalmes.grincon17.futchamp.repositoryApi.PartidosRepositoryApi;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -324,7 +322,7 @@ public class Api {
     }
 
     public void obtenerDatosPartidosPorEquipo(final Context context, final Activity activity,
-                                               final OnListPartidoInteractionListener mListener) {
+                                               final OnListNextPartidoInteractionListener mListener) {
         final String TAG_JUGADOR = "Partido";
         retrofit = getConexion(enlace.getLink(enlace.PARTIDO));
         PartidosRepositoryApi partidosRepositoryApi = retrofit.create(PartidosRepositoryApi.class);
@@ -344,8 +342,8 @@ public class Api {
                     RecyclerView recyclerViewPartidos2 = activity.findViewById(R.id.recycler_partidos2_equipo);
                     recyclerViewPartidos1.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false));
                     recyclerViewPartidos2.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false));
-                    recyclerViewPartidos1.setAdapter(new MyPartidoRecyclerViewAdapter(context, partidoList, mListener));
-                    recyclerViewPartidos2.setAdapter(new MyPartidoRecyclerViewAdapter(context, partidoList, mListener));
+                    recyclerViewPartidos1.setAdapter(new MyNextPartidoRecyclerViewAdapter(context, partidoList, mListener));
+                    recyclerViewPartidos2.setAdapter(new MyPrevPartidoRecyclerViewAdapter(context, partidoList, mListener));
                     // Muestra los datos que llegan en la consola
                     for (int i = 0; i < jugadorList.size(); i++) {
                         Log.e(TAG_JUGADOR, "Liga: " + jugadorList.get(i).getNombre());

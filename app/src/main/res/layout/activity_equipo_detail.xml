@@ -217,7 +217,7 @@
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:orientation="horizontal"
                 tools:cotext="activities.EquipoDetailActivity"
-                tools:listitem="@layout/fragment_partido"/>
+                tools:listitem="@layout/fragment_proximo_partido"/>
 
             <TextView
                 android:id="@+id/text_partidos_jugados"
@@ -236,7 +236,7 @@
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:orientation="horizontal"
                 tools:cotext="activities.EquipoDetailActivity"
-                tools:listitem="@layout/fragment_partido"/>
+                tools:listitem="@layout/fragment_proximo_partido"/>
 
             <TextView
                 android:id="@+id/text_jugadores"

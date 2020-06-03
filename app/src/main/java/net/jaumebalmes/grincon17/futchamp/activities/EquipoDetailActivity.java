@@ -1,19 +1,12 @@
 package net.jaumebalmes.grincon17.futchamp.activities;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,46 +15,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
 import net.jaumebalmes.grincon17.futchamp.R;
-import net.jaumebalmes.grincon17.futchamp.adapters.MyJornadaRecyclerViewAdapter;
-import net.jaumebalmes.grincon17.futchamp.adapters.MyJugadorRecyclerViewAdapter;
 import net.jaumebalmes.grincon17.futchamp.conexion.Api;
-import net.jaumebalmes.grincon17.futchamp.conexion.Enlace;
 import net.jaumebalmes.grincon17.futchamp.conexion.Firebase;
 import net.jaumebalmes.grincon17.futchamp.fragments.AddEquipoDialogFragment;
 import net.jaumebalmes.grincon17.futchamp.fragments.AddLeagueDialogFragment;
-import net.jaumebalmes.grincon17.futchamp.fragments.LeagueFragment;
 import net.jaumebalmes.grincon17.futchamp.fragments.LoginDialogFragment;
-import net.jaumebalmes.grincon17.futchamp.interfaces.OnAddEquipoDialogListener;
-import net.jaumebalmes.grincon17.futchamp.interfaces.OnAddLeagueDialogListener;
-import net.jaumebalmes.grincon17.futchamp.interfaces.OnListJornadaInteractionListener;
 import net.jaumebalmes.grincon17.futchamp.interfaces.OnListJugadorInteractionListener;
-import net.jaumebalmes.grincon17.futchamp.interfaces.OnListPartidoInteractionListener;
+import net.jaumebalmes.grincon17.futchamp.interfaces.OnListNextPartidoInteractionListener;
 import net.jaumebalmes.grincon17.futchamp.interfaces.OnLoginDialogListener;
 import net.jaumebalmes.grincon17.futchamp.models.Equipo;
 import net.jaumebalmes.grincon17.futchamp.models.Jugador;
-import net.jaumebalmes.grincon17.futchamp.models.League;
 import net.jaumebalmes.grincon17.futchamp.models.Partido;
-import net.jaumebalmes.grincon17.futchamp.repositoryApi.CoordinadorRepositoryApi;
-import net.jaumebalmes.grincon17.futchamp.repositoryApi.JugadorRepositoryApi;
-import net.jaumebalmes.grincon17.futchamp.repositoryApi.LeagueRepositoryApi;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
 
 /**
  * Esta activity muestra la vista del detalle de un equipo.
@@ -100,9 +66,9 @@ public class EquipoDetailActivity extends AppCompatActivity implements OnLoginDi
                 invalidateOptionsMenu();
             }
         };
-        OnListPartidoInteractionListener partidoInteractionListener = new OnListPartidoInteractionListener() {
+        OnListNextPartidoInteractionListener partidoInteractionListener = new OnListNextPartidoInteractionListener() {
             @Override
-            public void onPartidoClickListener(Partido partido) {
+            public void onNextPartidoClickListener(Partido partido) {
 
             }
         };

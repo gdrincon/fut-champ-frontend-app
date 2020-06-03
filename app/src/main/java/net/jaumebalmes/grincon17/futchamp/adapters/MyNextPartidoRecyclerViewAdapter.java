@@ -14,19 +14,19 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import net.jaumebalmes.grincon17.futchamp.R;
-import net.jaumebalmes.grincon17.futchamp.interfaces.OnListPartidoInteractionListener;
+import net.jaumebalmes.grincon17.futchamp.interfaces.OnListNextPartidoInteractionListener;
 import net.jaumebalmes.grincon17.futchamp.models.Equipo;
 import net.jaumebalmes.grincon17.futchamp.models.Partido;
 
 import java.util.List;
 
-public class MyPartidoRecyclerViewAdapter extends RecyclerView.Adapter<MyPartidoRecyclerViewAdapter.ViewHolder> {
+public class MyNextPartidoRecyclerViewAdapter extends RecyclerView.Adapter<MyNextPartidoRecyclerViewAdapter.ViewHolder> {
 
     private final List<Partido> mValues;
-    private final OnListPartidoInteractionListener mListener;
+    private final OnListNextPartidoInteractionListener mListener;
     private final Context mContent;
 
-    public MyPartidoRecyclerViewAdapter (Context context, List<Partido> items, OnListPartidoInteractionListener listener){
+    public MyNextPartidoRecyclerViewAdapter(Context context, List<Partido> items, OnListNextPartidoInteractionListener listener){
         mContent = context;
         mValues = items;
         mListener = listener;
@@ -36,15 +36,21 @@ public class MyPartidoRecyclerViewAdapter extends RecyclerView.Adapter<MyPartido
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_partido, parent, false);
+                .inflate(R.layout.fragment_proximo_partido, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.fecha.setText(holder.mItem.getFecha());
-        holder.hora.setText(holder.mItem.getHora());
+        String fechaInvertida = holder.mItem.getFecha();
+        String [] splitFecha = fechaInvertida.split("-");
+        String fecha = splitFecha[2] + "-" + splitFecha[1] + "-" + splitFecha[0];
+        holder.fecha.setText(fecha);
+        String horaSegundos = holder.mItem.getHora();
+        String [] splitHora = horaSegundos.split(":");
+        String hora = splitHora[0] + ":" + splitHora[1];
+        holder.hora.setText(hora);
         Equipo equipoLocal = holder.mItem.getLocal();
         Equipo equipoVisitante = holder.mItem.getVisitante();
 
@@ -55,7 +61,7 @@ public class MyPartidoRecyclerViewAdapter extends RecyclerView.Adapter<MyPartido
             @Override
             public void onClick(View v) {
                 if (mListener != null) {
-                    mListener.onPartidoClickListener(holder.mItem);
+                    mListener.onNextPartidoClickListener(holder.mItem);
                 }
             }
         });
