@@ -205,7 +205,7 @@ public class LeagueDetailActivity extends AppCompatActivity implements OnLoginDi
                     api.deleteEquipo(equipoClicked.getId(), getApplicationContext(), getSupportFragmentManager());
                 }
                 if(jugadorClicked != null) {
-                    api.deleteJugador(jugadorClicked.getId(), getApplicationContext(), getSupportFragmentManager());
+                    api.deleteJugador(jugadorClicked.getId(), getApplicationContext(), getSupportFragmentManager(), null);
                 }
                 longClick = false;
                 invalidateOptionsMenu();

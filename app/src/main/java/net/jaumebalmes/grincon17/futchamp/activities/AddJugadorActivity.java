@@ -107,7 +107,7 @@ public class AddJugadorActivity extends AppCompatActivity {
             jugador.setDni(String.valueOf(dni.getText()));
             jugador.setEmail(String.valueOf(email.getText()));
             Log.i("CAMPOS", String.valueOf(jugador));
-            api.postJugador(String.valueOf(equipoNombre.getText()), filePath, jugador, getApplicationContext());
+            api.postJugador(String.valueOf(equipoNombre.getText()), filePath, jugador, getApplicationContext(), this);
         } else {
             Log.i("CAMPOS", jugador + " " + filePath);
             Toast.makeText(this, getString(R.string.add_new_playe_empty_field_msg), Toast.LENGTH_SHORT).show();

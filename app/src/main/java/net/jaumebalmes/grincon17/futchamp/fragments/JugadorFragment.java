@@ -40,11 +40,10 @@ import retrofit2.Retrofit;
  */
 public class JugadorFragment extends Fragment {
 
-    private static final String TAG = "JUGADOR"; //  Para mostrar mensajes por consola
-    private static final int COLUMNS = 3;
     private OnListJugadorInteractionListener mListener;
     private String leagueName;
     private Api api;
+    private View view;
     public JugadorFragment() {
     }
 
@@ -59,11 +58,16 @@ public class JugadorFragment extends Fragment {
 
     }
 
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_jugador_list, container, false);
+    @Override
+    public void onResume() {
+        super.onResume();
         if (view instanceof RecyclerView) {
             api.obtenerDatosJugadores(view, leagueName, getActivity(), mListener); // Llama a la API para obtener los datos de los juagdores
         }
+    }
+
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_jugador_list, container, false);
         return view;
     }
 

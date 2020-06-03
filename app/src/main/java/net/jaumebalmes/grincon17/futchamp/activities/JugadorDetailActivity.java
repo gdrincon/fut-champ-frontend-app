@@ -167,7 +167,7 @@ public class JugadorDetailActivity extends AppCompatActivity implements OnLoginD
                 loginDialogFragment.show(getSupportFragmentManager(), getString(R.string.login_txt));
                 return true;
             case R.id.trash_icon:
-                api.deleteJugador(jugador.getId(), getApplicationContext(), null);
+                api.deleteJugador(jugador.getId(), getApplicationContext(), null, this);
                 return true;
             case R.id.edit_icon:
                 // TODO: implementar editar

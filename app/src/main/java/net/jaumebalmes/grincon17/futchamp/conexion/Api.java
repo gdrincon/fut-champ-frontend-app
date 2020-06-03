@@ -321,6 +321,49 @@ public class Api {
         });
     }
 
+    public void obtenerDatosPartidosPorEquipo(String nombreEquipo, final Context context, final Activity activity,
+                                               final OnListJugadorInteractionListener mListener) {
+        final String TAG_JUGADOR = "JUGADORES";
+        retrofit = getConexion(enlace.getLink(enlace.PARTIDO));
+        JugadorRepositoryApi jugadorRepositoryApi = retrofit.create(JugadorRepositoryApi.class);
+        Call<ArrayList<Jugador>> jugadorAnswerCall = jugadorRepositoryApi.obtenerListaJugadoresEquipo(nombreEquipo);
+        jugadorList = new ArrayList<>();
+        // Aqui se realiza la solicitud al servidor de forma asincrónicamente y se obtiene 2 respuestas.
+        jugadorAnswerCall.enqueue(new Callback<ArrayList<Jugador>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Jugador>> call, Response<ArrayList<Jugador>> response) {
+
+                if (response.isSuccessful()) {
+                    // Aqui se aplica a la vista los datos obtenidos de la API que estan almacenados en el ArrayList
+                    jugadorList = response.body();
+
+                    RecyclerView recyclerView = activity.findViewById(R.id.recycler_jugadores_equipo);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(context));
+                    recyclerView.setAdapter(new MyJugadorRecyclerViewAdapter(context, jugadorList, mListener));
+                    // Muestra los datos que llegan en la consola
+                    for (int i = 0; i < jugadorList.size(); i++) {
+                        Log.e(TAG_JUGADOR, "Liga: " + jugadorList.get(i).getNombre());
+                    }
+
+                } else {
+                    Toast toast = Toast.makeText(context, activity.getString(R.string.login_failed), Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 500);
+                    toast.show();
+                    Log.e(TAG_JUGADOR, " ERROR AL CARGAR JUGADORES: onResponse" + response.errorBody());
+                }
+            }
+
+            // Aqui, se mostrara si la conexion a la API falla.
+            @Override
+            public void onFailure(Call<ArrayList<Jugador>> call, Throwable t) {
+                Toast toast = Toast.makeText(context, "Error en la conexion a la red.", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 500);
+                toast.show();
+                Log.e(TAG_JUGADOR, " => ERROR LISTA JUGADORES => onFailure: " + t.getMessage());
+            }
+        });
+    }
+
     /**
      * Llamada a la Api para añadir una liga
      * @param leagueName nombre de la liga
@@ -434,7 +477,7 @@ public class Api {
      * Llamada a la Api para añadir un Jugador
      *
      */
-    private void addJugador(Uri filePath, final Jugador jugador, final Context context) {
+    private void addJugador(Uri filePath, final Jugador jugador, final Context context, final Activity activity) {
         if (filePath != null) {
 
             retrofit = getConexion(enlace.getLink(enlace.JUGADOR));
@@ -459,6 +502,8 @@ public class Api {
                                     if(response.isSuccessful()) {
                                         Log.i("JUGADOR", " RESPUESTA: " + response.body());
                                         Toast.makeText(context, "Jugador añadido", Toast.LENGTH_SHORT).show();
+                                        activity.onBackPressed();
+
                                     } else {
                                         Log.e("JUGADOR", "ERROR: " + response.errorBody());
                                     }
@@ -481,7 +526,7 @@ public class Api {
         }
     }
 
-    public void postJugador(String nombreEquipo, final Uri filePath, final Jugador jugador, final Context context) {
+    public void postJugador(String nombreEquipo, final Uri filePath, final Jugador jugador, final Context context, final Activity activity) {
         retrofit = getConexion(enlace.getLink(enlace.EQUIPO));
         EquipoRepositoryApi equipoRepositoryApi = retrofit.create(EquipoRepositoryApi.class);
         Call<Equipo> equipoAnswerCall = equipoRepositoryApi.obtenerEquipoPorNombre(nombreEquipo);
@@ -493,7 +538,7 @@ public class Api {
                 if (response.isSuccessful()) {
                     Equipo equipo = response.body();
                     jugador.setEquipo(equipo);
-                    addJugador(filePath, jugador, context);
+                    addJugador(filePath, jugador, context, activity);
                 } else {
                     Toast toast = Toast.makeText(context, "Equipo no encontrado", Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.CENTER, 0, 500);
@@ -656,7 +701,7 @@ public class Api {
         });
     }
 
-    public void deleteJugador(long id, final Context context, final FragmentManager fragmentManager) {
+    public void deleteJugador(long id, final Context context, final FragmentManager fragmentManager, final Activity activity) {
         retrofit = getConexion(enlace.getLink(enlace.JUGADOR));
         JugadorRepositoryApi jugadorRepositoryApi = retrofit.create(JugadorRepositoryApi.class);
         Call<Jugador> answerDeleteJugador = jugadorRepositoryApi.deleteJugador(id);
@@ -667,6 +712,8 @@ public class Api {
                     Toast.makeText(context, "Jugador eliminado", Toast.LENGTH_SHORT).show();
                     if (fragmentManager != null) {
                         fragmentManager.beginTransaction().replace(R.id.nav_host_fragment, new JugadorFragment()).commit();
+                    } else {
+                        activity.onBackPressed();
                     }
                 }
             }
