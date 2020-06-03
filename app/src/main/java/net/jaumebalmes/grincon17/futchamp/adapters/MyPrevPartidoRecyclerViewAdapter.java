@@ -43,7 +43,10 @@ public class MyPrevPartidoRecyclerViewAdapter extends RecyclerView.Adapter<MyPre
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-
+        int randLocal = (int) (Math.random() * 4);
+        int randVisit = (int) (Math.random() * 4);
+        holder.resultLocal.setText(String.valueOf(randLocal));
+        holder.resultVisitante.setText(String.valueOf(randVisit));
         Equipo equipoLocal = holder.mItem.getLocal();
         Equipo equipoVisitante = holder.mItem.getVisitante();
         loadImg(equipoLocal.getLogo(), holder.logoLocal);
