@@ -23,6 +23,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import net.jaumebalmes.grincon17.futchamp.R;
 import net.jaumebalmes.grincon17.futchamp.conexion.Api;
@@ -61,6 +62,7 @@ public class LeagueDetailActivity extends AppCompatActivity implements OnLoginDi
     private Api api;
     private Equipo equipoClicked;
     private Jugador jugadorClicked;
+    private Fragment currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,8 +78,10 @@ public class LeagueDetailActivity extends AppCompatActivity implements OnLoginDi
         }
         toolbarConf();
         BottomNavigationView navView = findViewById(R.id.nav_view);
+        currentFragment = new JornadaFragment();
+        currentFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.nav_host_fragment,new JornadaFragment()).commit();
+                .add(R.id.nav_host_fragment, currentFragment, "LEAGUE").commit();
         navView.setOnNavigationItemSelectedListener(this);
     }
 
@@ -98,7 +102,7 @@ public class LeagueDetailActivity extends AppCompatActivity implements OnLoginDi
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.navigation_equipos :
-                Fragment currentFragment = new EquipoFragment();
+                currentFragment = new EquipoFragment();
                 currentFragment.setArguments(bundle);
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.nav_host_fragment, currentFragment, "LEAGUE").commit();

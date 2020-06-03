@@ -548,25 +548,31 @@ public class Api {
         });
     }
 
-    public void getCalendar(final View view, final FragmentActivity fragmentActivity, final OnListJornadaInteractionListener mListener,
-                            final String userName, final String pwd){
+    public void getPartidosByLeagueCalendar(final View view, final FragmentActivity fragmentActivity,
+                                            final OnListJornadaInteractionListener mListener, String nombreLeagueCalendario){
+        Log.i("NOMBRE", nombreLeagueCalendario);
         retrofit = getConexion(enlace.getLink(enlace.CALENDARIO));
         CalendarioReposirotyApi calendarioReposirotyApi = retrofit.create(CalendarioReposirotyApi.class);
-        Call<Calendario> calendarioCall = calendarioReposirotyApi.obtenerCalendario(userName, pwd);
+        Call<Calendario> calendarioCall = calendarioReposirotyApi.obtenerCalendario(nombreLeagueCalendario);
         calendarioCall.enqueue(new Callback<Calendario>() {
             @Override
             public void onResponse(Call<Calendario> call, Response<Calendario> response) {
-
+                if(response.isSuccessful()) {
+                    Calendario calendario = response.body();
+                    //getPartidos(calendario.getLeague(), calendario.getFecha(),view, fragmentActivity, mListener);
+                    Log.i("RESPONSE_OK", response.body().toString());
+                } else {
+                    Log.i("BAD_RESPONSE", String.valueOf(response.errorBody()));
+                }
             }
-
             @Override
             public void onFailure(Call<Calendario> call, Throwable t) {
-
+                Log.e("ERROR", t.getMessage());
             }
         });
     }
 
-    public void getPartidos(final View view, final FragmentActivity fragmentActivity,
+    public void getPartidos(/*String nombreLeagueCalendario, String fechaInicio,*/ final View view, final FragmentActivity fragmentActivity,
                                     final OnListJornadaInteractionListener mListener) {
         final String TAG = "PARTIDO";
         retrofit = getConexion(enlace.getLink(enlace.PARTIDO));

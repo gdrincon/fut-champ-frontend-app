@@ -10,8 +10,8 @@ import retrofit2.http.Query;
 
 public interface CalendarioReposirotyApi {
 
-    @GET("verificarAutorizacion")
-    Call<Calendario> obtenerCalendario(@Query("usuario")String usuario, @Query("clave") String clave);
+    @GET("mostrar/nombre")
+    Call<Calendario> obtenerCalendario(@Query("nombreLeagueCalendario") String nombreLeaguecalendario);
 
     @POST("agregar")
     Call<Calendario> postCalendario(@Body Calendario calendario);
