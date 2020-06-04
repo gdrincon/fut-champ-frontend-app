@@ -32,6 +32,7 @@ import net.jaumebalmes.grincon17.futchamp.adapters.MyLeagueRecyclerViewAdapter;
 import net.jaumebalmes.grincon17.futchamp.adapters.MyNextPartidoRecyclerViewAdapter;
 import net.jaumebalmes.grincon17.futchamp.adapters.MyPrevPartidoRecyclerViewAdapter;
 import net.jaumebalmes.grincon17.futchamp.fragments.EquipoFragment;
+import net.jaumebalmes.grincon17.futchamp.fragments.JornadaFragment;
 import net.jaumebalmes.grincon17.futchamp.fragments.JugadorFragment;
 import net.jaumebalmes.grincon17.futchamp.fragments.LeagueFragment;
 import net.jaumebalmes.grincon17.futchamp.interfaces.OnListEquipoInteractionListener;
@@ -43,12 +44,14 @@ import net.jaumebalmes.grincon17.futchamp.models.Calendario;
 import net.jaumebalmes.grincon17.futchamp.models.Equipo;
 import net.jaumebalmes.grincon17.futchamp.models.Jugador;
 import net.jaumebalmes.grincon17.futchamp.models.League;
+import net.jaumebalmes.grincon17.futchamp.models.Marcador;
 import net.jaumebalmes.grincon17.futchamp.models.Partido;
 import net.jaumebalmes.grincon17.futchamp.repositoryApi.CalendarioReposirotyApi;
 import net.jaumebalmes.grincon17.futchamp.repositoryApi.CoordinadorRepositoryApi;
 import net.jaumebalmes.grincon17.futchamp.repositoryApi.EquipoRepositoryApi;
 import net.jaumebalmes.grincon17.futchamp.repositoryApi.JugadorRepositoryApi;
 import net.jaumebalmes.grincon17.futchamp.repositoryApi.LeagueRepositoryApi;
+import net.jaumebalmes.grincon17.futchamp.repositoryApi.MarcadorRepositoryApi;
 import net.jaumebalmes.grincon17.futchamp.repositoryApi.PartidosRepositoryApi;
 
 import java.io.IOException;
@@ -725,6 +728,30 @@ public class Api {
             @Override
             public void onFailure(Call<Jugador> call, Throwable t) {
 
+            }
+        });
+    }
+
+    public void postMarcador(final Context context, final FragmentManager fragmentManager, Marcador marcador) {
+        retrofit = getConexion(enlace.getLink(enlace.MARCADOR));
+        MarcadorRepositoryApi marcadorRepositoryApi = retrofit.create(MarcadorRepositoryApi.class);
+        Call<Marcador> answerPostMacador = marcadorRepositoryApi.postMarcador(marcador);
+        answerPostMacador.enqueue(new Callback<Marcador>() {
+            @Override
+            public void onResponse(Call<Marcador> call, Response<Marcador> response) {
+                if(response.isSuccessful()) {
+                    Toast.makeText(context, "Marcador Añadido", Toast.LENGTH_SHORT).show();
+                    if (fragmentManager != null) {
+                        fragmentManager.beginTransaction().replace(R.id.nav_host_fragment, new JornadaFragment()).commit();
+                    } else {
+                        Toast.makeText(context, "No se ha podido añadir el marcador", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Marcador> call, Throwable t) {
+                Log.e("ERROR", t.getMessage());
             }
         });
     }

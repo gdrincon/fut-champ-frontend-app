@@ -119,24 +119,26 @@
             app:layout_constraintTop_toBottomOf="@+id/text_equipo_visitante"
             app:layout_constraintVertical_bias="1.0" />
 
-        <View
+        <TextView
             android:id="@+id/dividerResultLocal"
-            android:layout_width="30dp"
-            android:layout_height="1dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            android:background="@color/colorGrey"
+            android:text="-"
+            android:textSize="@dimen/text_size_big"
             app:layout_constraintBottom_toBottomOf="@+id/dividerResult"
             app:layout_constraintEnd_toStartOf="@+id/dividerResult"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/text_partido_fecha"
             app:layout_constraintTop_toTopOf="@+id/dividerResult" />
 
-        <View
+        <TextView
             android:id="@+id/dividerResultVisitante"
-            android:layout_width="30dp"
-            android:layout_height="1dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:background="@color/colorGrey"
+            android:text="-"
+            android:textSize="@dimen/text_size_big"
             app:layout_constraintBottom_toBottomOf="@+id/dividerResult"
             app:layout_constraintEnd_toStartOf="@+id/textViewJornada"
             app:layout_constraintHorizontal_bias="0.0"

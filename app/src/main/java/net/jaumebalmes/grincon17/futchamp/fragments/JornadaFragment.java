@@ -31,9 +31,9 @@ public class JornadaFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if(getArguments() != null) {
             leagueName = getArguments().getString("LEAGUE");
+            Log.d("LEAGUE_NAME", leagueName);
         }
 
-        Log.d("LEAGUE_NAME", leagueName);
         api = new Api();
     }
 

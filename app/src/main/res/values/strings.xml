@@ -83,4 +83,6 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="equipo_tabla">Equipo</string>
+    <string name="add_resultado">Resultado</string>
 </resources>

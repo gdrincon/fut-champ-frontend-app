@@ -93,6 +93,8 @@ public class MyJornadaRecyclerViewAdapter extends RecyclerView.Adapter<MyJornada
         final View mView;
         final TextView mFechaView;
         final TextView mHoraView;
+        final TextView mResultadoLocalView;
+        final TextView mResultadoVisitanteView;
         final TextView mLocalView;
         final TextView mVisitanteView;
         final TextView mJornadaNumView;
@@ -103,6 +105,8 @@ public class MyJornadaRecyclerViewAdapter extends RecyclerView.Adapter<MyJornada
         ViewHolder(View view) {
             super(view);
             mView = view;
+            mResultadoLocalView = view.findViewById(R.id.dividerResultLocal);
+            mResultadoVisitanteView = view.findViewById(R.id.dividerResultVisitante);
             mJornadaNumView = view.findViewById(R.id.textViewJornadaNum);
             mFechaView = view.findViewById(R.id.text_partido_fecha);
             mHoraView = view.findViewById(R.id.text_partido_hora);

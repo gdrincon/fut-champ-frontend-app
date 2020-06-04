@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -29,12 +30,14 @@ import net.jaumebalmes.grincon17.futchamp.R;
 import net.jaumebalmes.grincon17.futchamp.conexion.Api;
 import net.jaumebalmes.grincon17.futchamp.fragments.AddCalendarioDialogFragment;
 import net.jaumebalmes.grincon17.futchamp.fragments.AddEquipoDialogFragment;
+import net.jaumebalmes.grincon17.futchamp.fragments.AddResultadoDialogFragment;
 import net.jaumebalmes.grincon17.futchamp.fragments.EquipoFragment;
 import net.jaumebalmes.grincon17.futchamp.fragments.JornadaFragment;
 import net.jaumebalmes.grincon17.futchamp.fragments.JugadorFragment;
 import net.jaumebalmes.grincon17.futchamp.fragments.LoginDialogFragment;
 import net.jaumebalmes.grincon17.futchamp.interfaces.OnAddCalendarioDialogListener;
 import net.jaumebalmes.grincon17.futchamp.interfaces.OnAddEquipoDialogListener;
+import net.jaumebalmes.grincon17.futchamp.interfaces.OnAddResultadoDialogListener;
 import net.jaumebalmes.grincon17.futchamp.interfaces.OnListEquipoInteractionListener;
 import net.jaumebalmes.grincon17.futchamp.interfaces.OnListJornadaInteractionListener;
 import net.jaumebalmes.grincon17.futchamp.interfaces.OnListJugadorInteractionListener;
@@ -44,6 +47,7 @@ import net.jaumebalmes.grincon17.futchamp.models.Equipo;
 import net.jaumebalmes.grincon17.futchamp.models.Jornada;
 import net.jaumebalmes.grincon17.futchamp.models.Jugador;
 import net.jaumebalmes.grincon17.futchamp.models.League;
+import net.jaumebalmes.grincon17.futchamp.models.Marcador;
 import net.jaumebalmes.grincon17.futchamp.models.Partido;
 
 /**
@@ -53,7 +57,8 @@ import net.jaumebalmes.grincon17.futchamp.models.Partido;
  */
 public class LeagueDetailActivity extends AppCompatActivity implements OnLoginDialogListener,
         OnListJornadaInteractionListener, OnListEquipoInteractionListener, OnListJugadorInteractionListener,
-        BottomNavigationView.OnNavigationItemSelectedListener,  OnAddEquipoDialogListener, OnAddCalendarioDialogListener {
+        BottomNavigationView.OnNavigationItemSelectedListener,  OnAddEquipoDialogListener, OnAddCalendarioDialogListener,
+        OnAddResultadoDialogListener {
 
     private SharedPreferences preferences;
     private League league;
@@ -253,7 +258,10 @@ public class LeagueDetailActivity extends AppCompatActivity implements OnLoginDi
 
     @Override
     public void onJornadaClickListener(Partido partido) {
-
+        if(preferences != null) {
+            AddResultadoDialogFragment addResultadoDialogFragment = new AddResultadoDialogFragment(partido);
+            addResultadoDialogFragment.show(getSupportFragmentManager(), getString(R.string.add_resultado));
+        }
     }
 
     @Override
@@ -318,5 +326,14 @@ public class LeagueDetailActivity extends AppCompatActivity implements OnLoginDi
 
         api.postCalendar(calendario, getApplicationContext());
         Log.i("OBJETO CALENDARIO: ", calendario.toString());
+    }
+
+    @Override
+    public void onAddResultadoClickListener(int resultadoLocal, int resultadoVisitante, Partido partido) {
+        Marcador marcador = new Marcador();
+        marcador.setgLocal(resultadoLocal);
+        marcador.setgVisitante(resultadoVisitante);
+        marcador.setPartido(partido);
+        api.postMarcador(getApplicationContext(), getSupportFragmentManager(), marcador);
     }
 }
